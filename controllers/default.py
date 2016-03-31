@@ -9,83 +9,52 @@
 #########################################################################
 
 import serial
-import timer
 import time
 import sys
 
-puerto = '/dev/ttyACM0'
-baudios = 115200
-timout = 1
-bits_datos = serial.EIGHTBITS # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS
-paridad = serial.PARITY_NONE #PARITY_NONE, PARITY_EVEN, PARITY_ODD PARITY_MARK, PARITY_SPACE
-bits_stop = serial.STOPBITS_ONE #STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO
-
-log = 0
-
-exh = 0
-
-#try:
-    # se abre port serie     
-ser = serial.Serial(puerto, 
-                baudrate=baudios,
-                timeout=timout, 
-                bytesize=bits_datos, 
-                parity=paridad, 
-                stopbits = bits_stop)
-#except serial.serialutil.SerialException, mensaje:
-    #print mensaje
-    #print "No se puede continuar con la ejecución"
-    #raise SystemExit
-
-t_scan = 0.2
-
-buffer = ""
-linea = ""
-
-fin = 0
-
-def tim_func():
-    global exh
-    exh = exh + 1
-
-def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """           
-    #te, hu = tim_func(ser, log, ';')
-    global exh
-    buff = ""
-    response.flash="leyendo datos"
-    while 1: 
-        cant = ser.in_waiting
-        
-        if cant > 0:        
-            # si hay bytes en buffer de recepción...
-            buff = buff + ser.read(cant)     
-            
-            if '\n' in buff:                  
-                break  
+def index():         
+    te = "??"
+    hu = "??"
     
-    te = buff[:6]
-    hu = buff[11:16]
-    
-    exs = "%d" % exh
-    
+    exs = "??"   
+     
     return dict(tempe=te, hume=hu, extra=exs)
+    pass
 
-tim = timer.tick_timer(t_scan, tim_func, [])
-tim.start()
+def procesa():
+	puerto = '/dev/ttyACM0'
+	baudios = 115200
+	timout = 1
+	bits_datos = serial.EIGHTBITS # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS
+	paridad = serial.PARITY_NONE #PARITY_NONE, PARITY_EVEN, PARITY_ODD PARITY_MARK, PARITY_SPACE
+	bits_stop = serial.STOPBITS_ONE #STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO
+	
+	response.flash="leyendo datos"
+
+	ser = serial.Serial(puerto, 
+                        baudrate=baudios,
+                        timeout=timout, 
+                        bytesize=bits_datos, 
+                        parity=paridad, 
+                        stopbits = bits_stop)
+
+	ser.reset_input_buffer()
+	buff = ""
+	
+	c = ser.read()
+	while c != '\n':
+		buff = buff + c
+		c = ser.read()
+	
+	ser.close()
+	return buff
 
 def form():
     form=FORM(TABLE(TR("puerto:",INPUT(_type="text",_name="puerto",requires=IS_NOT_EMPTY())),
                     TR("velocidad:",INPUT(_type="text",_name="baudrate",requires=IS_EMAIL())),
-                    TR("Admin",INPUT(_type="checkbox",_name="admin")),
-                    TR("Sure?",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
-                    TR("Profile",TEXTAREA(_name="profile",value="write something here")),
+                    #~ TR("Admin",INPUT(_type="checkbox",_name="admin")),
+                    #~ TR("Sure?",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
+                    #~ TR("Profile",TEXTAREA(_name="profile",value="write something here")),
                     TR("",INPUT(_type="submit",_value="SUBMIT"))))
     if form.accepts(request,session):
         response.flash="form accepted"
@@ -94,8 +63,6 @@ def form():
     else:
         response.flash="please fill the form"
     return dict(form=form,vars=form.vars)
-
-
 
 def data():
     if not session.m or len(session.m)==10: session.m=[]

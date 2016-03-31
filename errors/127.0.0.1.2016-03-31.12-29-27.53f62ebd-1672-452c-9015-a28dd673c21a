@@ -1,0 +1,831 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> name 't_scan' is not defined"
+p3
+sS'layer'
+p4
+S'/home/diegocode/Downloads/web2py/applications/sermon/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n#########################################################################\n\nimport serial\nimport timer\nimport time\nimport sys\n#~ \n#~ puerto = \'/dev/ttyACM0\'\n#~ baudios = 115200\n#~ timout = 1\n#~ bits_datos = serial.EIGHTBITS # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS\n#~ paridad = serial.PARITY_NONE #PARITY_NONE, PARITY_EVEN, PARITY_ODD PARITY_MARK, PARITY_SPACE\n#~ bits_stop = serial.STOPBITS_ONE #STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO\n\nlog = 0\n\nexh = 0\n\nbuffer = ""\nlinea = ""\n\nfin = 0\n\ndef tim_func():\n    global exh\n    exh = exh + 1\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simply replace the two lines below with:\n    return auth.wiki()\n    """           \n    #te, hu = tim_func(ser, log, \';\')\n    #~ global exh, ser\n    buff = "25.00 *C - 42.00 % - 24.65 *C"\n    response.flash="leyendo datos"\n    #~ while 1: \n        #~ cant = ser.in_waiting\n        #~ #cant = 2\n        #~ if cant > 0:        \n            #~ # si hay bytes en buffer de recepci\xc3\xb3n...\n            #~ buff = buff + ser.read(cant)     \n            #~ \n            #~ if \'\\n\' in buff:                  \n                #~ break  \n    \n    te = buff[:6]\n    hu = buff[11:16]\n    \n    exs = "%d" % exh\n    \n    return dict(tempe=te, hume=hu, extra=exs)\n\ntim = timer.tick_timer(t_scan, tim_func, [])\ntim.start()\n\ndef form():\n    form=FORM(TABLE(TR("puerto:",INPUT(_type="text",_name="puerto",requires=IS_NOT_EMPTY())),\n                    TR("velocidad:",INPUT(_type="text",_name="baudrate",requires=IS_EMAIL())),\n                    TR("Admin",INPUT(_type="checkbox",_name="admin")),\n                    TR("Sure?",SELECT(\'yes\',\'no\',_name="sure",requires=IS_IN_SET([\'yes\',\'no\']))),\n                    TR("Profile",TEXTAREA(_name="profile",value="write something here")),\n                    TR("",INPUT(_type="submit",_value="SUBMIT"))))\n    if form.accepts(request,session):\n        response.flash="form accepted"\n    elif form.errors:\n        response.flash="form is invalid"\n    else:\n        response.flash="please fill the form"\n    return dict(form=form,vars=form.vars)\n\n\n\ndef data():\n    if not session.m or len(session.m)==10: session.m=[]\n    if request.vars.q: session.m.append(request.vars.q)\n    session.m.sort()\n    return TABLE(*[TR(v) for v in session.m]).xml()\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.NameError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.NameError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.NameError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.NameError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.NameError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.NameError object>'
+p23
+sS'args'
+p24
+S'("name \'t_scan\' is not defined",)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.NameError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.NameError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.NameError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.NameError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.NameError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.NameError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.NameError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.NameError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.NameError object>'
+p47
+sS'__doc__'
+p48
+S"'Name not found globally.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.NameError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"name 't_scan' is not defined"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\t`\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-a1d3da43-8d55-4e09-a2b9-a345ffff2fe9<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_seriemon</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-05c804fd-8f76-4ee1-b409-9239f64b68c8<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_sermon</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-6363c4a5-cd34-47d9-9ed1-147adfff46ce<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-65cc437d-1627-4767-9b43-20e3d2057eca<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=127.0.0.1-65cc437d-1627-4767-9b43-20e3d2057eca; session_id_admin=127.0.0.1-a1d3da43-8d55-4e09-a2b9-a345ffff2fe9; session_id_seriemon=127.0.0.1-05c804fd-8f76-4ee1-b409-9239f64b68c8; session_id_sermon=127.0.0.1-6363c4a5-cd34-47d9-9ed1-147adfff46ce</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>42619</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>code-lce</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/diegocode/Downloads/web2py/applications/sermon/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/serieview/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/welcome/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/admin/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/seriemon/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f0026196878: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;code-lce&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/diegocode/Downloads/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=127.0.0.1-65cc437d-1627-4767-9b43-20e3d2057eca; session_id_admin=127.0.0.1-a1d3da43-8d55-4e09-a2b9-a345ffff2fe9; session_id_seriemon=127.0.0.1-05c804fd-8f76-4ee1-b409-9239f64b68c8; session_id_sermon=127.0.0.1-6363c4a5-cd34-47d9-9ed1-147adfff46ce</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>code-lce</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>42619</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>code-lce</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.3-stable+timestamp.2016.03.26.23.02.02</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f0030aa21e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f00261bf328&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7effe042b150&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f0030aa21e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f00261bf328&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7effe042b150&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py/applications/sermon/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/diegocode/Downloads/web2py/applications/sermon/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/serieview/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/welcome/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/admin/&#x27;, &#x27;/home/diegocode/Downloads/web2py/applications/seriemon/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f0026196878: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;code-lce&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/diegocode/Downloads/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>code-lce</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.3-stable+timestamp.2016.03.26.23.02.02</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 31, 12, 29, 27, 311183)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 31, 15, 29, 27, 311200)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7efff8470510&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/diegocode/Downloads/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x7effe042b5b0, file "/...ications/sermon/controllers/default.py", line 11>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...ervice()\\n\\nresponse._vars=response._caller(index)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}, layer='/home/diegocode/Downloads/web2py/applications/sermon/controllers/default.py')"
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/diegocode/Downloads/web2py/applications/sermon/controllers/default.py'
+p88
+sg64
+(dp89
+S'tim'
+p90
+S'undefined'
+p91
+sS'timer.tick_timer'
+p92
+S'<class applications.sermon.modules.timer.tick_timer>'
+p93
+sS'tim_func'
+p94
+S'<function tim_func>'
+p95
+sS't_scan'
+p96
+g91
+sS'timer'
+p97
+S"<module 'applications.sermon.modules.timer' from 'applications/sermon/modules/timer.pyc'>"
+p98
+ssg70
+I65
+sg71
+(dp99
+I64
+S''
+sI65
+S'tim = timer.tick_timer(t_scan, tim_func, [])'
+p100
+sI66
+S'tim.start()'
+p101
+sI67
+S''
+sI68
+S'def form():'
+p102
+sI69
+S'    form=FORM(TABLE(TR("puerto:",INPUT(_type="text",_name="puerto",requires=IS_NOT_EMPTY())),'
+p103
+sI60
+S''
+sI61
+S'    exs = "%d" % exh'
+p104
+sI62
+S''
+sI63
+S'    return dict(tempe=te, hume=hu, extra=exs)'
+p105
+ssg83
+S'()'
+p106
+sg85
+S'<module>'
+p107
+sasS'pyver'
+p108
+S'Python 2.7.6: /usr/bin/python (prefix: /usr)'
+p109
+sS'session'
+p110
+g57
+(S's\x1a\x00\x00\x00<div><table></table></div>'
+tRp111
+sS'etype'
+p112
+S"<type 'exceptions.NameError'>"
+p113
+sS'date'
+p114
+S'Thu Mar 31 12:29:27 2016'
+p115
+sS'response'
+p116
+g57
+(S's\xea\x1d\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7effe0347848&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_sermon</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-6f215b7a-8be1-41d8-84a2-bca1c84f31a1<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="#" id="web2py-logo"><b>serClima</b></a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>monitor</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/sermon/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>configuraci\xc3\xb3n</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/sermon/default/form</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>registro</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>ayuda</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>web2py</div></td></tr><tr><td><div>python</div></td></tr><tr><td><div>framework</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/index/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/diegocode/Downloads/web2py/applications/sermon/sessions/127.0.0.1-6f215b7a-8be1-41d8-84a2-bca1c84f31a1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>c0762cbf4baf7f9af97c051e7fcb8083</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-6f215b7a-8be1-41d8-84a2-bca1c84f31a1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Sermon</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/index.html</div></td></tr></table></div>'
+tRp117
+sS'locals'
+p118
+(dp119
+S'Service'
+p120
+S"<class 'gluon.tools.Service'>"
+p121
+sS'OBJECT'
+p122
+S"<class 'gluon.html.OBJECT'>"
+p123
+sS'SQLDB'
+p124
+S"<class 'pydal.base.DAL'>"
+p125
+sg110
+S'<Storage {}>'
+p126
+sS'LINK'
+p127
+S"<class 'gluon.html.LINK'>"
+p128
+sS'BR'
+p129
+S"<class 'gluon.html.BR'>"
+p130
+sS'local_import'
+p131
+S'<function <lambda>>'
+p132
+sS'OPTGROUP'
+p133
+S"<class 'gluon.html.OPTGROUP'>"
+p134
+sS'LI'
+p135
+S"<class 'gluon.html.LI'>"
+p136
+sS'PRE'
+p137
+S"<class 'gluon.html.PRE'>"
+p138
+sS'IS_INT_IN_RANGE'
+p139
+S"<class 'gluon.validators.IS_INT_IN_RANGE'>"
+p140
+sS'IS_LOWER'
+p141
+S"<class 'gluon.validators.IS_LOWER'>"
+p142
+sS'IS_STRONG'
+p143
+S"<class 'gluon.validators.IS_STRONG'>"
+p144
+sS'cache'
+p145
+S'<gluon.cache.Cache object>'
+p146
+sS'IS_IN_DB'
+p147
+S"<class 'gluon.validators.IS_IN_DB'>"
+p148
+sS'TAG'
+p149
+S'<gluon.html.__TAG__ object>'
+p150
+sS'SQLField'
+p151
+S"<class 'pydal.objects.Field'>"
+p152
+sS'mail'
+p153
+S'<gluon.tools.Mail object>'
+p154
+sS'fin'
+p155
+S'0'
+sS'BODY'
+p156
+S"<class 'gluon.html.BODY'>"
+p157
+sS'IS_DATE_IN_RANGE'
+p158
+S"<class 'gluon.validators.IS_DATE_IN_RANGE'>"
+p159
+sS'TH'
+p160
+S"<class 'gluon.html.TH'>"
+p161
+sS'URL'
+p162
+S'<function URL>'
+p163
+sS'__file__'
+p164
+S"'/home/diegocode/Downloads/web2py/applications/sermon/controllers/default.py'"
+p165
+sS'db'
+p166
+S'<DAL uri="sqlite://storage.sqlite">'
+p167
+sS'auth'
+p168
+S'<gluon.tools.Auth object>'
+p169
+sS'P'
+S"<class 'gluon.html.P'>"
+p170
+sS'TFOOT'
+p171
+S"<class 'gluon.html.TFOOT'>"
+p172
+sS'XHTML'
+p173
+S"<class 'gluon.html.XHTML'>"
+p174
+sS'ON'
+p175
+S'True'
+p176
+sS'OL'
+p177
+S"<class 'gluon.html.OL'>"
+p178
+sS'TEXTAREA'
+p179
+S"<class 'gluon.html.TEXTAREA'>"
+p180
+sS'MENU'
+p181
+S"<class 'gluon.html.MENU'>"
+p182
+sS'tim_func'
+p183
+S'<function tim_func>'
+p184
+sS'LOAD'
+p185
+S'<function LOAD>'
+p186
+sS'CODE'
+p187
+S"<class 'gluon.html.CODE'>"
+p188
+sS'HTTP'
+p189
+S"<class 'gluon.http.HTTP'>"
+p190
+sS'HR'
+p191
+S"<class 'gluon.html.HR'>"
+p192
+sS'IS_DATETIME'
+p193
+S"<class 'gluon.validators.IS_DATETIME'>"
+p194
+sS'HEAD'
+p195
+S"<class 'gluon.html.HEAD'>"
+p196
+sS'LABEL'
+p197
+S"<class 'gluon.html.LABEL'>"
+p198
+sS'CLEANUP'
+p199
+S"<class 'gluon.validators.CLEANUP'>"
+p200
+sS'plugins'
+p201
+S'<gluon.tools.PluginManager object>'
+p202
+sS'SELECT'
+p203
+S"<class 'gluon.html.SELECT'>"
+p204
+sS'index'
+p205
+S'<function index>'
+p206
+sS'CENTER'
+p207
+S"<class 'gluon.html.CENTER'>"
+p208
+sS'Auth'
+p209
+S"<class 'gluon.tools.Auth'>"
+p210
+sS'DEVELOPMENT_MENU'
+p211
+g176
+sS'__builtins__'
+p212
+S"{'ArithmeticError': <type 'exceptions.ArithmeticError'>, 'AssertionError': <type 'exceptions.AssertionError'>, 'AttributeError': <type 'exceptions.AttributeError'>, 'BaseException': <type 'exceptions.BaseException'>, 'BufferError': <type 'exceptions.BufferError'>, 'BytesWarning': <type 'exceptions.BytesWarning'>, 'DeprecationWarning': <type 'exceptions.DeprecationWarning'>, 'EOFError': <type 'exceptions.EOFError'>, 'Ellipsis': Ellipsis, 'EnvironmentError': <type 'exceptions.EnvironmentError'>, ...}"
+p213
+sS'HTML'
+p214
+S"<class 'gluon.html.HTML'>"
+p215
+sS'SQLFORM'
+p216
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p217
+sS'EM'
+p218
+S"<class 'gluon.html.EM'>"
+p219
+sS'redirect'
+p220
+S'<function redirect>'
+p221
+sS'FIELDSET'
+p222
+S"<class 'gluon.html.FIELDSET'>"
+p223
+sS'IS_EQUAL_TO'
+p224
+S"<class 'gluon.validators.IS_EQUAL_TO'>"
+p225
+sS'embed64'
+p226
+S'<function embed64>'
+p227
+sS'IS_LIST_OF'
+p228
+S"<class 'gluon.validators.IS_LIST_OF'>"
+p229
+sS'__name__'
+p230
+S"'__restricted__'"
+p231
+sS'EMBED'
+p232
+S"<class 'gluon.html.EMBED'>"
+p233
+sS'_'
+S'<function _>'
+p234
+sS'FORM'
+p235
+S"<class 'gluon.html.FORM'>"
+p236
+sS'myconf'
+p237
+S"{'forms': {'formstyle': 'bootstrap3_inline', 'se...': {'names': 'localhost:*, 127.0.0.1:*, *:*, *'}}"
+p238
+sS'H2'
+p239
+S"<class 'gluon.html.H2'>"
+p240
+sS'H3'
+p241
+S"<class 'gluon.html.H3'>"
+p242
+sS'AppConfig'
+p243
+S'<function AppConfig>'
+p244
+sS'H1'
+p245
+S"<class 'gluon.html.H1'>"
+p246
+sS'H6'
+p247
+S"<class 'gluon.html.H6'>"
+p248
+sS'timer'
+p249
+S"<module 'applications.sermon.modules.timer' from 'applications/sermon/modules/timer.pyc'>"
+p250
+sS'H5'
+p251
+S"<class 'gluon.html.H5'>"
+p252
+sS'UL'
+p253
+S"<class 'gluon.html.UL'>"
+p254
+sS'IS_UPPER'
+p255
+S"<class 'gluon.validators.IS_UPPER'>"
+p256
+sS'xmlescape'
+p257
+S'<function xmlescape>'
+p258
+sS'IS_TIME'
+p259
+S"<class 'gluon.validators.IS_TIME'>"
+p260
+sS'OPTION'
+p261
+S"<class 'gluon.html.OPTION'>"
+p262
+sS'TITLE'
+p263
+S"<class 'gluon.html.TITLE'>"
+p264
+sS'CRYPT'
+p265
+S"<class 'gluon.validators.CRYPT'>"
+p266
+sS'IS_EMPTY_OR'
+p267
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p268
+sS'MARKMIN'
+p269
+S"<class 'gluon.html.MARKMIN'>"
+p270
+sS'INPUT'
+p271
+S"<class 'gluon.html.INPUT'>"
+p272
+sS'STRONG'
+p273
+S"<class 'gluon.html.STRONG'>"
+p274
+sS'COL'
+p275
+S"<class 'gluon.html.COL'>"
+p276
+sS'log'
+p277
+S'0'
+sS'service'
+p278
+S'<gluon.tools.Service object>'
+p279
+sS'SCRIPT'
+p280
+S"<class 'gluon.html.SCRIPT'>"
+p281
+sS'TABLE'
+p282
+S"<class 'gluon.html.TABLE'>"
+p283
+sS'IS_IPV4'
+p284
+S"<class 'gluon.validators.IS_IPV4'>"
+p285
+sS'IS_LENGTH'
+p286
+S"<class 'gluon.validators.IS_LENGTH'>"
+p287
+sS'IS_IPV6'
+p288
+S"<class 'gluon.validators.IS_IPV6'>"
+p289
+sS'XML'
+p290
+S"<class 'gluon.html.XML'>"
+p291
+sS'B'
+S"<class 'gluon.html.B'>"
+p292
+sS'IMG'
+p293
+S"<class 'gluon.html.IMG'>"
+p294
+sS'SQLTABLE'
+p295
+S"<class 'gluon.sqlhtml.SQLTABLE'>"
+p296
+sS'IS_MATCH'
+p297
+S"<class 'gluon.validators.IS_MATCH'>"
+p298
+sS'IS_ALPHANUMERIC'
+p299
+S"<class 'gluon.validators.IS_ALPHANUMERIC'>"
+p300
+sS'SPAN'
+p301
+S"<class 'gluon.html.SPAN'>"
+p302
+sS'IS_JSON'
+p303
+S"<class 'gluon.validators.IS_JSON'>"
+p304
+sS'IS_IPADDRESS'
+p305
+S"<class 'gluon.validators.IS_IPADDRESS'>"
+p306
+sS'IS_SLUG'
+p307
+S"<class 'gluon.validators.IS_SLUG'>"
+p308
+sS'BEAUTIFY'
+p309
+S"<class 'gluon.html.BEAUTIFY'>"
+p310
+sS'META'
+p311
+S"<class 'gluon.html.META'>"
+p312
+sS'BUTTON'
+p313
+S"<class 'gluon.html.BUTTON'>"
+p314
+sS'IS_DATE'
+p315
+S"<class 'gluon.validators.IS_DATE'>"
+p316
+sS'IS_EMAIL'
+p317
+S"<class 'gluon.validators.IS_EMAIL'>"
+p318
+sS'IS_NOT_EMPTY'
+p319
+S"<class 'gluon.validators.IS_NOT_EMPTY'>"
+p320
+sS'IS_FLOAT_IN_RANGE'
+p321
+S"<class 'gluon.validators.IS_FLOAT_IN_RANGE'>"
+p322
+sS'TBODY'
+p323
+S"<class 'gluon.html.TBODY'>"
+p324
+sS'CAT'
+p325
+S"<class 'gluon.html.CAT'>"
+p326
+sS'Field'
+p327
+S"<class 'pydal.objects.Field'>"
+p328
+sS'H4'
+p329
+S"<class 'gluon.html.H4'>"
+p330
+sS'IS_LIST_OF_EMAILS'
+p331
+S"<class 'gluon.validators.IS_LIST_OF_EMAILS'>"
+p332
+sS'DIV'
+p333
+S"<class 'gluon.html.DIV'>"
+p334
+sS'LEGEND'
+p335
+S"<class 'gluon.html.LEGEND'>"
+p336
+sS'COLGROUP'
+p337
+S"<class 'gluon.html.COLGROUP'>"
+p338
+sS'DAL'
+p339
+S"<class 'pydal.base.DAL'>"
+p340
+sS'ASSIGNJS'
+p341
+S'<function ASSIGNJS>'
+p342
+sS'TR'
+p343
+S"<class 'gluon.html.TR'>"
+p344
+sS'__package__'
+p345
+S'None'
+p346
+sS'IFRAME'
+p347
+S"<class 'gluon.html.IFRAME'>"
+p348
+sS'TD'
+p349
+S"<class 'gluon.html.TD'>"
+p350
+sS'PluginManager'
+p351
+S"<class 'gluon.tools.PluginManager'>"
+p352
+sS'IS_URL'
+p353
+S"<class 'gluon.validators.IS_URL'>"
+p354
+sS'A'
+S"<class 'gluon.html.A'>"
+p355
+sS'STYLE'
+p356
+S"<class 'gluon.html.STYLE'>"
+p357
+sS'IS_DATETIME_IN_RANGE'
+p358
+S"<class 'gluon.validators.IS_DATETIME_IN_RANGE'>"
+p359
+sS'IS_IMAGE'
+p360
+S"<class 'gluon.validators.IS_IMAGE'>"
+p361
+sS'buffer'
+p362
+S"''"
+p363
+sS'sys'
+p364
+S"<module 'sys' (built-in)>"
+p365
+sS'IS_NOT_IN_DB'
+p366
+S"<class 'gluon.validators.IS_NOT_IN_DB'>"
+p367
+sg116
+S"<Storage {'body': <cStringIO.StringO object at 0...t 0x7effe0438320>, 'view': 'default/index.html'}>"
+p368
+sS'serial'
+p369
+S"<module 'serial' from '/usr/lib/python2.7/dist-packages/serial/__init__.pyc'>"
+p370
+sS'THEAD'
+p371
+S"<class 'gluon.html.THEAD'>"
+p372
+sS'ANY_OF'
+p373
+S"<class 'gluon.validators.ANY_OF'>"
+p374
+sS'IS_NULL_OR'
+p375
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p376
+sS'I'
+S"<class 'gluon.html.I'>"
+p377
+sg56
+S"<Storage {'_vars': None, 'function': 'index', 'c...iegocode/Downloads/web2py/applications/sermon/'}>"
+p378
+sS'IS_EXPR'
+p379
+S"<class 'gluon.validators.IS_EXPR'>"
+p380
+sS'exh'
+p381
+S'0'
+sS'IS_IN_SET'
+p382
+S"<class 'gluon.validators.IS_IN_SET'>"
+p383
+sS'IS_UPLOAD_FILENAME'
+p384
+S"<class 'gluon.validators.IS_UPLOAD_FILENAME'>"
+p385
+sS'time'
+p386
+S"<module 'time' (built-in)>"
+p387
+sS'IS_DECIMAL_IN_RANGE'
+p388
+S"<class 'gluon.validators.IS_DECIMAL_IN_RANGE'>"
+p389
+sS'TT'
+p390
+S"<class 'gluon.html.TT'>"
+p391
+sS'linea'
+p392
+S"''"
+p393
+sS'T'
+S'<gluon.languages.translator object>'
+p394
+sssS'traceback'
+p395
+S'Traceback (most recent call last):\n  File "/home/diegocode/Downloads/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/diegocode/Downloads/web2py/applications/sermon/controllers/default.py", line 65, in <module>\n    tim = timer.tick_timer(t_scan, tim_func, [])\nNameError: name \'t_scan\' is not defined\n'
+p396
+s.

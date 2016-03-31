@@ -5,7 +5,7 @@
 <h2>temperatura</h2>
 </td>
 <td class="td-d">
-<h2>{{=tempe}}</h2>
+<h2 id="temp">{{=tempe}}</h2>
 </td>
 </tr>
 <tr>
@@ -24,71 +24,20 @@
 </td>
 </tr>
 </table>
-<div id="temp"></div>		
-<script>
-            function ajaxRequest()
-            {
-                try //no es IE
-                {
-                    var request = new XMLHttpRequest();
-                }
-                catch (e1)
-                {
-                    try // IE 6+?
-                    {
-                        request = new ActiveXObject("Msxml2.XMLHTTP");
-                    }
-                    catch (e2)
-                    {
-                        try // IE 5?
-                        {
-                            request = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                        catch (e3) // No soporta Ajax
-                        {
-                            request = false;
-                        }
-                    }
-                }
-                return request;
-            }
 
+
+<script>
+       
 var flag = 1;
 
             function consultar() {
-                    
-                    request = new ajaxRequest();
-                    request.open("GET", "consulta.py", true);
-                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    request.setRequestHeader("Connection", "close");
-                    request.send();
-
-                    request.onreadystatechange = function ()
-                    {
-                        if (this.readyState == 4) // 4: completo
-                        {
-                            if (this.status == 200) // 200: resultado ok
-                            {
-                                if (this.responseText != null)
-                                {                                                                    
-                                    document.getElementById('temp').innerHTML =
-                                            this.responseText;
-
-                                    setTimeout('consultar()', 2000);
-                                }
-                                else
-                                    alert("Hubo un error actualizando datos");
-                            }
-                            else
-                                alert("No se pudo acceder a los datos: " + this.statusText);
-                        }
-                    }             
+                    ajax("{{=URL('procesa')}}", [], 'temp');
+                    setTimeout('consultar()', 2000);
             }
-
-
-consultar();
+	consultar();
 
         </script>
+
 
 
 
