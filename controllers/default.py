@@ -51,15 +51,48 @@ def procesa():
 		while c != '\n':
 			buff = buff + c
 			c = ser.read()
-		
+					
 		ser.close()
-
+				
+		sale = """
+			<tr>
+				<td class="td-i">
+					<h2>temperatura</h2>
+				</td>
+			
+				<td class="td-d">
+					<h2>"""
+					
+		sale = sale + buff[0:5] + """ &deg;C</h2>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-i">
+					<h2>humedad</h2>
+				</td>
+				<td class="td-d">
+					<h2>"""
+					
+		sale = sale + buff[10:16] + """ %</h2>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-i">
+					<h2>sensaci&oacute;n t&eacute;rmica</h2>
+				</td>
+				<td class="td-d">
+					<h2>"""
+					
+		sale = sale + buff[20:26] + """ &deg;C</h2>
+				</td>
+			</tr>
+		""" 
+		
+		buff = sale
+		
 	except serial.serialutil.SerialException, mensaje:
 		response.flash="error de comunicaciones"
-		buff = "eee"
-		#~ print mensaje
-		#~ print "No se puede continuar con la ejecución"
-		#raise SystemExit
+		buff = "<tr><td>error</td></tr>" 
 
 	return buff
 
