@@ -32,7 +32,7 @@ var flag = 1;
 
             function consultar() {
                     ajax("{{=URL('procesa')}}", [], 'temp');
-                    setTimeout('consultar()', 2000);
+                    setTimeout('consultar()', 10000);
             }
 	consultar();
 
