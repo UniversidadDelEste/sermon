@@ -12,27 +12,35 @@ import serial
 import time
 import sys
 
+puerto = '/dev/ttyACM0'
+baudios = 115200
+timout = 1
+bits_datos = serial.EIGHTBITS # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS
+paridad = serial.PARITY_NONE #PARITY_NONE, PARITY_EVEN, PARITY_ODD PARITY_MARK, PARITY_SPACE
+bits_stop = serial.STOPBITS_ONE #STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO
+
 def index():         
     te = "??"
     hu = "??"
-    
     exs = "??"   
      
     return dict(tempe=te, hume=hu, extra=exs)
     pass
 
 def procesa():
-	puerto = '/dev/ttyACM0'
-	baudios = 115200
-	timout = 1
-	bits_datos = serial.EIGHTBITS # FIVEBITS, SIXBITS, SEVENBITS, EIGHTBITS
-	paridad = serial.PARITY_NONE #PARITY_NONE, PARITY_EVEN, PARITY_ODD PARITY_MARK, PARITY_SPACE
-	bits_stop = serial.STOPBITS_ONE #STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO
-
+	
+	f = open("config.txt")
+	puerto = f.readline().rstrip()
+	baudios = int(f.readline().rstrip())
+	f.close()
+	
+	#~ puerto = '/dev/ttyACM0'
+	#~ baudios = 115200
+	
 	try:
 		ser = serial.Serial(puerto, 
 							baudrate=baudios,
-							timeout=0, 
+							timeout=5, 
 							bytesize=bits_datos, 
 							parity=paridad, 
 							stopbits = bits_stop)
@@ -42,13 +50,22 @@ def procesa():
 		
 		response.flash="leyendo datos"
 		
+		cont = 20
 		c = ser.read()
 		while c != '\n':
-			#~ buff = buff + c
+			cont = cont - 1
+			if cont == 0:
+				response.flash="uno"
+				break
 			c = ser.read()
-			
+		
+		cont = 20	
 		c = ser.read()
 		while c != '\n':
+			cont = cont - 1
+			if cont == 0:
+				response.flash="dos"
+				break
 			buff = buff + c
 			c = ser.read()
 					
@@ -85,31 +102,42 @@ def procesa():
 					
 		sale = sale + buff[20:26] + """ &deg;C</h2>
 				</td>
-			</tr>
-		""" 
+			</tr>"""
+			
+		sale = sale + """<tr><td>puerto</td><td>""" + puerto + """</td></tr>"""  
 		
-		buff = sale
+		sale = sale + """<tr><td>puerto</td><td>""" + str(baudios) + """</td></tr>"""
+		
 		
 	except serial.serialutil.SerialException, mensaje:
 		response.flash="error de comunicaciones"
-		buff = "<tr><td>error</td></tr>" 
+		sale = "<tr><td>error</td></tr>" 
+		sale = sale + """<tr><td>puerto: """ + puerto + """</td></tr>"""  
+		
+		sale = sale + """<tr><td>baudrate: """ + str(baudios) + """</td></tr>"""
+			
+	return sale
 
-	return buff
-
-def form():
+def config_form():
     form=FORM(TABLE(TR("puerto:",INPUT(_type="text",_name="puerto",requires=IS_NOT_EMPTY())),
-                    TR("velocidad:",INPUT(_type="text",_name="baudrate",requires=IS_EMAIL())),
-                    #~ TR("Admin",INPUT(_type="checkbox",_name="admin")),
-                    #~ TR("Sure?",SELECT('yes','no',_name="sure",requires=IS_IN_SET(['yes','no']))),
-                    #~ TR("Profile",TEXTAREA(_name="profile",value="write something here")),
+                    TR("velocidad:",INPUT(_type="text",_name="baudrate",requires=IS_NOT_EMPTY())),
                     TR("",INPUT(_type="submit",_value="SUBMIT"))))
     if form.accepts(request,session):
-        response.flash="form accepted"
+        response.flash="configuración guardada" 
+        
+        f = open("config.txt","w")
+        f.write(form.vars.puerto + "\n")
+        f.write(form.vars.baudrate + "\n")
+        f.close()
+        
+        puerto = form.vars.puerto
+        baudios = int(form.vars.baudrate)
+        
+        redirect(URL('index'))
     elif form.errors:
-        response.flash="form is invalid"
-    else:
-        response.flash="please fill the form"
-    return dict(form=form,vars=form.vars)
+        response.flash="datos incorrectos"
+
+    return dict(form=form) #,vars=form.vars)
 
 def data():
     if not session.m or len(session.m)==10: session.m=[]

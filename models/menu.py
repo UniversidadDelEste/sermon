@@ -40,7 +40,7 @@ def _():
     ctr = request.controller
     # useful links to internal and external resources
     response.menu += [
-        (T('configuración'), False, URL('default', 'form')),
+        (T('configuración'), False, URL('default', 'config_form')),
           (T('registro'), False, '#' ),
           (T('ayuda'), False, '#'),
         ]
