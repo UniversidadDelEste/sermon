@@ -41,9 +41,8 @@ def _():
     # useful links to internal and external resources
     response.menu += [
         (T('configuración'), False, URL('default', 'config_form')),
-          (T('registro'), False, '#' ),
-          (T('ayuda'), False, '#'),
-        ]
+          (T('registro'), False, URL('default', 'registro') ),
+          ]
 if DEVELOPMENT_MENU: _()
 
 #if "auth" in locals(): auth.wikimenu() 

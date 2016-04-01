@@ -98,3 +98,10 @@ auth.settings.reset_password_requires_verification = True
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+db = DAL('sqlite://registro.db')
+db.define_table('registro_clima',Field('fecha','string', length=20),
+								 Field('temp','string', length=5),
+								 Field('hume','string', length=5),
+								 Field('ster','string', length=5)
+								 )

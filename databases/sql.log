@@ -53,3 +53,18 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2016-04-01T19:09:06.756454
+CREATE TABLE prime(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value INTEGER
+);
+success!
+timestamp: 2016-04-01T19:13:30.772474
+CREATE TABLE registro_clima(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fecha CHAR(20),
+    temp CHAR(5),
+    hume CHAR(5),
+    ster CHAR(5)
+);
+success!

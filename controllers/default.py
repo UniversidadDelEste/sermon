@@ -10,7 +10,6 @@
 
 import serial
 import time
-import sys
 
 puerto = '/dev/ttyACM0'
 baudios = 115200
@@ -40,7 +39,7 @@ def procesa():
 	try:
 		ser = serial.Serial(puerto, 
 							baudrate=baudios,
-							timeout=5, 
+							timeout=0, 
 							bytesize=bits_datos, 
 							parity=paridad, 
 							stopbits = bits_stop)
@@ -50,22 +49,12 @@ def procesa():
 		
 		response.flash="leyendo datos"
 		
-		cont = 20
 		c = ser.read()
 		while c != '\n':
-			cont = cont - 1
-			if cont == 0:
-				response.flash="uno"
-				break
 			c = ser.read()
 		
-		cont = 20	
 		c = ser.read()
 		while c != '\n':
-			cont = cont - 1
-			if cont == 0:
-				response.flash="dos"
-				break
 			buff = buff + c
 			c = ser.read()
 					
@@ -106,8 +95,13 @@ def procesa():
 			
 		sale = sale + """<tr><td>puerto</td><td>""" + puerto + """</td></tr>"""  
 		
-		sale = sale + """<tr><td>puerto</td><td>""" + str(baudios) + """</td></tr>"""
-		
+		sale = sale + """<tr><td>baudrate</td><td>""" + str(baudios) + """</td></tr>"""
+			
+		db.registro_clima.insert(fecha=time.strftime("%Y-%m-%d") + " " + time.strftime("%H:%M:%S"),
+                               temp= buff[0:5],
+                               hume= buff[10:16],
+                               ster= buff[20:26]
+                               )
 		
 	except serial.serialutil.SerialException, mensaje:
 		response.flash="error de comunicaciones"
@@ -144,6 +138,10 @@ def data():
     if request.vars.q: session.m.append(request.vars.q)
     session.m.sort()
     return TABLE(*[TR(v) for v in session.m]).xml()
+
+def registro():
+    grid = SQLFORM.smartgrid(db.registro_clima,user_signature=False)
+    return dict(grid=grid)
 
 def user():
     """
