@@ -27,88 +27,82 @@ def index():
     pass
 
 def procesa():
-	
+	# recupera configuracion
 	f = open("config.txt")
 	puerto = f.readline().rstrip()
 	baudios = int(f.readline().rstrip())
 	f.close()
-	
-	#~ puerto = '/dev/ttyACM0'
-	#~ baudios = 115200
-	
+
 	try:
+		# abre el puerto serie
 		ser = serial.Serial(puerto, 
 							baudrate=baudios,
 							timeout=0, 
 							bytesize=bits_datos, 
 							parity=paridad, 
 							stopbits = bits_stop)
-
-		#~ ser.reset_input_buffer()
 		buff = ""
 		
+		# muestra indicador 
 		response.flash="leyendo datos"
 		
+		# lee del buffer de recepción hasta que lee fin de linea
+		# para descartar linea incompleta
 		c = ser.read()
 		while c != '\n':
 			c = ser.read()
 		
+		# lee del buffer de recepción hasta que lee fin de linea
+		# y va almacenando los caracteres leidos en buff
 		c = ser.read()
 		while c != '\n':
 			buff = buff + c
 			c = ser.read()
 					
 		ser.close()
-				
+		
+		# genera html con los datos obtenidos	
 		sale = """
-			<tr>
-				<td class="td-i">
-					<h2>temperatura</h2>
-				</td>
-			
-				<td class="td-d">
-					<h2>"""
+			<tr><td class="td-i"><h2>temperatura</h2></td>
+				<td class="td-d"><h2>"""
 					
 		sale = sale + buff[0:5] + """ &deg;C</h2>
-				</td>
-			</tr>
-			<tr>
-				<td class="td-i">
-					<h2>humedad</h2>
-				</td>
-				<td class="td-d">
-					<h2>"""
+				</td></tr>
+			<tr><td class="td-i"><h2>humedad</h2></td>
+				<td class="td-d"><h2>"""
 					
 		sale = sale + buff[10:16] + """ %</h2>
-				</td>
-			</tr>
-			<tr>
-				<td class="td-i">
-					<h2>sensaci&oacute;n t&eacute;rmica</h2>
-				</td>
-				<td class="td-d">
-					<h2>"""
+				</td></tr>
+			<tr><td class="td-i"><h2>sensaci&oacute;n t&eacute;rmica</h2>
+				</td><td class="td-d"><h2>"""
 					
-		sale = sale + buff[20:26] + """ &deg;C</h2>
-				</td>
-			</tr>"""
+		sale = sale + buff[20:26] + """ &deg;C</h2></td></tr>"""
 			
-		sale = sale + """<tr><td>puerto</td><td>""" + puerto + """</td></tr>"""  
+		sale = sale + """<tr><td>puerto</td>
+					<td>""" + puerto + """</td></tr>"""  
 		
-		sale = sale + """<tr><td>baudrate</td><td>""" + str(baudios) + """</td></tr>"""
+		sale = sale + """<tr><td>baudrate</td>
+					<td>""" + str(baudios) + """</td></tr>"""
+		
+		# guarda datos en la tabla registro_clima
+		fechahora = time.strftime("%Y-%m-%d") + " " 
+		fechahora = fechahora + time.strftime("%H:%M:%S")
 			
-		db.registro_clima.insert(fecha=time.strftime("%Y-%m-%d") + " " + time.strftime("%H:%M:%S"),
+		db.registro_clima.insert(fecha=fechahora,
                                temp= buff[0:5],
                                hume= buff[10:16],
                                ster= buff[20:26]
                                )
 		
 	except serial.serialutil.SerialException, mensaje:
+		# genera mensaje de error
 		response.flash="error de comunicaciones"
 		sale = "<tr><td>error</td></tr>" 
-		sale = sale + """<tr><td>puerto: """ + puerto + """</td></tr>"""  
+		sale = sale + """<tr><td>
+			puerto: """ + puerto + """</td></tr>"""  
 		
-		sale = sale + """<tr><td>baudrate: """ + str(baudios) + """</td></tr>"""
+		sale = sale + """<tr><td>
+			baudrate: """ + str(baudios) + """</td></tr>"""
 			
 	return sale
 
